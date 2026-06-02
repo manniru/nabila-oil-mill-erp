@@ -1,0 +1,95 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Driver {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  status    String   @default("Active")
+  createdAt DateTime @default(now())
+}
+
+model Truck {
+  id          String   @id @default(cuid())
+  number      String   @unique
+  transporter String   @default("NABILA OIL MILL")
+  capacity    Float    @default(45000)
+  status      String   @default("Active")
+  createdAt   DateTime @default(now())
+}
+
+model HaulageTrip {
+  id             String   @id @default(cuid())
+  loadDate       DateTime
+  transporter    String   @default("NABILA OIL MILL")
+  truckNumber    String
+  product        String
+  driverName     String
+  driverPhone    String?
+  origin         String
+  destination    String
+  waybillNumber  String?
+  weightQuantity Float
+  price          Float
+  haulageAmount  Float
+  shortageQty    Float    @default(0)
+  shortageAmount Float    @default(0)
+  createdAt      DateTime @default(now())
+}
+
+model Shortage {
+  id          String   @id @default(cuid())
+  date        DateTime @default(now())
+  truckNumber String
+  ullageN1    Float    @default(0)
+  ullageN2    Float    @default(0)
+  ullageN3    Float    @default(0)
+  qtyDepots   Float
+  shortageQty Float
+  resolved    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Expense {
+  id            String    @id @default(cuid())
+  date          DateTime
+  particulars   String
+  description   String
+  amount        Float
+  modeOfPayment String
+  cashReceived  Float     @default(0)
+  dateReceived  DateTime?
+  receivedFrom  String?
+  createdAt     DateTime  @default(now())
+}
+
+model Salary {
+  id             String   @id @default(cuid())
+  employeeName   String
+  designation    String
+  decemberAmount Float    @default(0)
+  januaryAmount  Float    @default(0)
+  comment        String?
+  createdAt      DateTime @default(now())
+}
+
+model Employee {
+  id          String   @id @default(cuid())
+  nin         String   @unique
+  name        String
+  phone       String
+  address     String
+  dob         DateTime
+  lga         String
+  state       String
+  guarantor   String
+  designation String
+  dofa        DateTime
+  createdAt   DateTime @default(now())
+}
